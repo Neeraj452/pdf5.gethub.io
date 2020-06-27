@@ -1,0 +1,40 @@
+{% extends 'myapp/basic.html' %}
+{% block content %}
+<h1>book list </h1>
+<table class="table">
+    <thead>
+    <tr>
+        <th>Image</th>
+        <th>semester</th>
+        <th>subject</th>
+        <th>pdf</th>
+        <th>Delete</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for book in books %}
+    <tr>
+        <td>
+            {% if book.image %}
+            <img src="{{ book.image.url }}" alt="{{ book.subject }} style="width:30px;">
+            {% else%}
+            <span class="text-muted"> No image</span>
+            {% endif %}
+
+        </td>
+        <td>{{ book.semester}}</td>
+        <td>{{ book.subject}}</td>
+        <td><a href="{{ book.pdf.url }}" class="btn btn-primary btn-sm" target="_blank">
+              Download PDF
+       </td>
+        <td> <form method="post" action="{% url 'delete_book' book.pk %}">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+            </form>
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}
